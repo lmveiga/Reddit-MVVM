@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Reddit MVVM</string>
+    <string name="thumbnail">thumbnail</string>
 </resources>
