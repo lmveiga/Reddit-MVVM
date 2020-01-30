@@ -1,6 +1,5 @@
-package com.gmail.lucasmveigabr.redditmvvm.features.main
+package com.gmail.lucasmveigabr.redditmvvm.features.posts
 
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,26 +8,26 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.gmail.lucasmveigabr.redditmvvm.R
-import kotlinx.android.synthetic.main.main_fragment.*
+import kotlinx.android.synthetic.main.post_fragment.*
 
-class MainFragment : Fragment() {
+class PostsFragment : Fragment() {
 
     companion object {
-        fun newInstance() = MainFragment()
+        fun newInstance() = PostsFragment()
     }
 
-    private lateinit var viewModel: MainViewModel
+    private lateinit var viewModel: PostsViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.main_fragment, container, false)
+        return inflater.inflate(R.layout.post_fragment, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(PostsViewModel::class.java)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
     }
