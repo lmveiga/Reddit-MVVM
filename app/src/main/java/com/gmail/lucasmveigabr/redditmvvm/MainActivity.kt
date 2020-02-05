@@ -2,7 +2,7 @@ package com.gmail.lucasmveigabr.redditmvvm
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.gmail.lucasmveigabr.redditmvvm.features.posts.PostsFragment
+import com.gmail.lucasmveigabr.redditmvvm.features.posts.RedditPostFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -11,7 +11,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.main_activity)
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                .replace(R.id.container, PostsFragment.newInstance())
+                .replace(R.id.container, RedditPostFragment.newInstance())
                 .commitNow()
         }
     }
