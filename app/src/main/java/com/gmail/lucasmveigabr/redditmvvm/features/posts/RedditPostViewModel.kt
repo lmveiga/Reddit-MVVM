@@ -13,10 +13,8 @@ import kotlinx.coroutines.withContext
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
-class RedditPostViewModel(val applicationContext: Application) :
+class RedditPostViewModel(private val api: RedditApi, private val applicationContext: Application) :
     AndroidViewModel(applicationContext) {
-
-    private val api: RedditApi
 
     private val lastResponse = MutableLiveData<RedditResponse>()
 
@@ -27,11 +25,6 @@ class RedditPostViewModel(val applicationContext: Application) :
 
 
     init {
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://www.reddit.com")
-            .addConverterFactory(MoshiConverterFactory.create())
-            .build()
-        api = retrofit.create(RedditApi::class.java)
         viewModelScope.launch {
             fetchPosts()
         }
@@ -48,7 +41,7 @@ class RedditPostViewModel(val applicationContext: Application) :
         applicationContext.startActivity(intent)
     }
 
-    private suspend fun fetchPosts() {   //TODO: cleanup
+    private suspend fun fetchPosts() {  
         withContext(Dispatchers.IO) {
             if (lastResponse.value == null) {
                 val response = api.getPosts("", "15").execute()

@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.gmail.lucasmveigabr.redditmvvm.R
 import kotlinx.android.synthetic.main.reddit_post_fragment.*
+import org.koin.android.ext.android.inject
 
 class RedditPostFragment : Fragment() {
 
@@ -17,7 +18,7 @@ class RedditPostFragment : Fragment() {
         fun newInstance() = RedditPostFragment()
     }
 
-    private lateinit var viewModel: RedditPostViewModel
+    private val viewModel: RedditPostViewModel by inject()
     private lateinit var adapter: RedditPostAdapter
 
     override fun onCreateView(
@@ -29,7 +30,6 @@ class RedditPostFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(RedditPostViewModel::class.java)
         adapter = RedditPostAdapter(requireContext()) {
             viewModel.recyclerItemClick(it)
         }
