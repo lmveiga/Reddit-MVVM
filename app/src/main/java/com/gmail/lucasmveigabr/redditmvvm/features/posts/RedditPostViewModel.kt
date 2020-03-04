@@ -41,7 +41,7 @@ class RedditPostViewModel(private val api: RedditApi, private val applicationCon
         applicationContext.startActivity(intent)
     }
 
-    private suspend fun fetchPosts() {  
+    private suspend fun fetchPosts() {
         withContext(Dispatchers.IO) {
             if (lastResponse.value == null) {
                 val response = api.getPosts("", "15").execute()
