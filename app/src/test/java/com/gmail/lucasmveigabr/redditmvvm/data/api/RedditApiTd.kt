@@ -12,11 +12,13 @@ import retrofit2.Response
 class RedditApiTd : RedditApi {
 
     var isFailure = false
+    var lastCallAfterValue: String? = null
 
     override fun getPosts(after: String, limit: String): Call<RedditResponse> {
         return object : Call<RedditResponse> {
 
             override fun execute(): Response<RedditResponse> {
+                lastCallAfterValue = after
                 if (isFailure)
                     return Response.error(500, null)
                 if (after == "after") {
