@@ -2,10 +2,8 @@ package com.gmail.lucasmveigabr.redditmvvm.features.posts
 
 import android.app.Application
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.gmail.lucasmveigabr.redditmvvm.data.api.RedditApi
 import com.gmail.lucasmveigabr.redditmvvm.data.api.RedditApiTd
 import io.mockk.mockk
-import io.mockk.verify
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestCoroutineDispatcher
@@ -13,9 +11,9 @@ import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runBlockingTest
 import kotlinx.coroutines.test.setMain
 import org.junit.After
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotNull
 import org.junit.Before
-
-import org.junit.Assert.*
 import org.junit.Rule
 import org.junit.Test
 
@@ -56,9 +54,15 @@ class RedditPostViewModelLoadPostsTest {
         }
 
     @Test
-    fun `when load posts is called and its not first call and the result is successful should update live data with new data`() {
-
-    }
+    fun `when load posts is called and its not first call and the result is successful should update live data with new data`() =
+        testDispatcher.runBlockingTest {
+            sut.loadNewPosts()
+            sut.loadNewPosts()
+            assertEquals(
+                1,
+                sut.posts.value!!.size
+            ) // Test Double returns an item on second call, instead of empty list
+        }
 
     @After
     fun tearDown() {
