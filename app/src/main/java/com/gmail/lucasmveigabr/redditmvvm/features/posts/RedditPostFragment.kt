@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.gmail.lucasmveigabr.redditmvvm.R
 import kotlinx.android.synthetic.main.reddit_post_fragment.*
@@ -39,7 +38,10 @@ class RedditPostFragment : Fragment() {
             adapter.setPosts(it)
         })
         nextPageButton.setOnClickListener {
-            viewModel.nextPageClick()
+            viewModel.loadNewPosts()
+        }
+        if (savedInstanceState == null) {
+            viewModel.loadNewPosts()
         }
     }
 

@@ -7,13 +7,15 @@ import androidx.lifecycle.*
 import com.gmail.lucasmveigabr.redditmvvm.data.api.RedditApi
 import com.gmail.lucasmveigabr.redditmvvm.data.model.response.RedditChildrenData
 import com.gmail.lucasmveigabr.redditmvvm.data.model.response.RedditResponse
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import retrofit2.Retrofit
-import retrofit2.converter.moshi.MoshiConverterFactory
 
-class RedditPostViewModel(private val api: RedditApi, private val applicationContext: Application) :
+class RedditPostViewModel(
+    private val api: RedditApi, private val applicationContext: Application,
+    private val ioDispatcher: CoroutineDispatcher
+) :
     AndroidViewModel(applicationContext) {
 
     private val lastResponse = MutableLiveData<RedditResponse>()
@@ -24,13 +26,7 @@ class RedditPostViewModel(private val api: RedditApi, private val applicationCon
     val posts: LiveData<List<RedditChildrenData>> = _posts
 
 
-    init {
-        viewModelScope.launch {
-            fetchPosts()
-        }
-    }
-
-    fun nextPageClick() {
+    fun loadNewPosts() {
         viewModelScope.launch {
             fetchPosts()
         }
@@ -42,7 +38,7 @@ class RedditPostViewModel(private val api: RedditApi, private val applicationCon
     }
 
     private suspend fun fetchPosts() {
-        withContext(Dispatchers.IO) {
+        withContext(ioDispatcher) {
             if (lastResponse.value == null) {
                 val response = api.getPosts("", "15").execute()
                 if (response.isSuccessful) {
